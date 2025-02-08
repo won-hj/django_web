@@ -1,0 +1,18 @@
+# 가상 환경
+venv/
+myenv/
+test/
+
+# __pycache__ 같은 불필요한 파일
+__pycache__/
+*.pyc
+*.pyo
+
+# 데이터베이스 파일
+db.sqlite3
+
+# 환경 설정 파일
+.env
+
+# PyCharm (JetBrains) 설정 폴더 무시
+.idea/
