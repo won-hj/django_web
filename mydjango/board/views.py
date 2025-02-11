@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -58,3 +58,7 @@ def user_logout(request):
 def post_list(request):
     posts = Post.objects.all().order_by("-created_at") #최신 글부터 정렬
     return render(request, "board/post_list.html", {"posts":posts}) #템플릿에 전달
+
+def post_detail(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    return render(request, "board/post_detail.html", {"post": post}) #템플릿에 전달; set가 아니라 dict여야만 한다
