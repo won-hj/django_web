@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판</title>
+</head>
+<body>
+    <h1> 게시글 목록 </h1>
+    <ul>
+        {% for post in posts %}
+            <li>
+                <strong>
+                    {{post.title}}
+                </strong> - {{ post.created_at|date:"Y-m-d H:i" }}
+            </li>
+        {% empty %}
+            <p> 아직 게시글이 없습니다.</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>

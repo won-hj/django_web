@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from .models import Post #Post 모델 가져오기
 
 # Create your views here.
 from django.http import HttpResponse
@@ -52,3 +53,8 @@ def user_logout(request):
     logout(request)
     messages.success(request, '로그아웃 되었습니다.')
     return redirect('index')
+
+
+def post_list(request):
+    posts = Post.objects.all().order_by("-created_at") #최신 글부터 정렬
+    return render(request, "board/post_list.html", {"posts":posts}) #템플릿에 전달
