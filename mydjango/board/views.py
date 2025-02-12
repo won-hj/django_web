@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Post #Post 모델 가져오기
+from .forms import PostForm #폼추가
+
 
 # Create your views here.
 from django.http import HttpResponse
@@ -62,3 +64,15 @@ def post_list(request):
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     return render(request, "board/post_detail.html", {"post": post}) #템플릿에 전달; set가 아니라 dict여야만 한다
+
+
+def post_create(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('post_list') #저장 후 게시글 목록으로 이동
+    else:
+        form = PostForm()
+
+    return render(request, 'board/post_form.html', {'form': form})
