@@ -90,3 +90,12 @@ def post_edit(request, post_id):
         form = PostForm(instance=post)
 
     return render(request, 'board/post_form.html', {'form':form})
+
+def post_delete(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.method == 'POST':
+        post.delete()
+        return redirect('post_list') #삭제 후 게시글 목록으로 이동
+
+    return render(request, 'board/post_confirm_delete.html', {'post':post})

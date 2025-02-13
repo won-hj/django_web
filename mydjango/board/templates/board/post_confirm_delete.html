@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>삭제확인</title>
+</head>
+<body>
+    <h1> 게시글 삭제 </h1>
+    <p> 정말로 "{{ post.title }}" 게시글을 삭제하시겠습니까? </p>
+
+    <form action="{% url 'post_delete' post.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit"> 예, 삭제합니다. </button>
+    </form>
+    <a href="{% url 'post_detail' post.id %}"> <button>아니요, 취소</button> </a>
+</body>
+</html>
