@@ -8,6 +8,8 @@
     <h1>{{post.title}}</h1>
     <p>{{post.content}}</p>
     <p>작성일: {{post.created_at|date:"Y-m-d H:i"}}</p>
-    <a href="/">[목록으로]</a>
+
+    <a href="{% url 'post_edit' post.id %}"><button>[수정]</button></a>
+    <a href="{% url 'post_list' %}">[목록]</a>
 </body>
 </html>
