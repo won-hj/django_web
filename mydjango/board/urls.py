@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import post_list, post_detail, post_create
+from .views import post_list, post_detail, post_create, post_edit
 
 urlpatterns = [
     #path('', views.index, name='index'), #메인 페이지
@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'), #로그아웃
     path('<int:post_id>/', post_detail, name='post_detail'), #게시글 상세
     path('new/', post_create, name='post_create'), #글쓰기페이지 추가
+    path('<int:post_id>/edit/', post_edit, name='post_edit'), #수정기능추가
 ]

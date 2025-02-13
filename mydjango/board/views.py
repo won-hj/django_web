@@ -76,3 +76,17 @@ def post_create(request):
         form = PostForm()
 
     return render(request, 'board/post_form.html', {'form': form})
+
+def post_edit(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', post_id=post.id) #수정 후 해당 게시글 이동
+
+    else:
+        form = PostForm(instance=post)
+
+    return render(request, 'board/post_form.html', {'form':form})
