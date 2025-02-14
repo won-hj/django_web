@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Post #Post 모델 가져오기
-from .forms import PostForm #폼추가
+from .forms import PostForm, SignUpForm #폼추가
 
 
 # Create your views here.
@@ -14,7 +15,7 @@ def index(request):
 
 #회원가입
 def signup(request):
-    if request.method == "POST":
+    '''if request.method == "POST":
         username= request.POST['username']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
@@ -30,13 +31,25 @@ def signup(request):
         messages.success(request, '회원가입이 완료되었습니다.')
         return redirect('login')
 
-    return render(request, 'board/signup.html')
+    return render(request, 'board/signup.html')'''
+    if request.method == 'POST':
+        print(request.POST)
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login') #회원가입 후 로그인 페이지 이동
+
+    else:
+        form = SignUpForm()
+
+    return render(request, 'board/registration/signup.html', {'form':form})
 
 #로그인
 def user_login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+    '''if request.method == 'POST':
+        #print(request.POST)
+        username = request.POST.get('username', '')#['username']
+        password = request.POST.get('password', '')#['password']
 
         user = authenticate(request, username=username, password=password)
 
@@ -48,7 +61,17 @@ def user_login(request):
             messages.success(request, '로그인되었습니다.')
             return redirect('index')
 
-    return render(request, 'board/login.html')
+    return render(request, 'board/registration/login.html')'''
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data = request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('index')
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'board/registration/login.html', {'form':form})
 
 #로그아웃
 def user_logout(request):
@@ -99,3 +122,4 @@ def post_delete(request, post_id):
         return redirect('post_list') #삭제 후 게시글 목록으로 이동
 
     return render(request, 'board/post_confirm_delete.html', {'post':post})
+
